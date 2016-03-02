@@ -1,0 +1,24 @@
+{
+  "name": "demio_chat",
+  "description": "chat",
+  "main": "/bin/www",
+  "authors": [
+    "Vlad Paskar"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jQuery": "^2.2.1",
+    "socket.io": "^1.4.5"
+  }
+}
