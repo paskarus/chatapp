@@ -19,6 +19,6 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "jQuery": "^2.2.1",
-    "socket.io": "^1.4.5"
+    "socket.io-client": "^1.4.5"
   }
 }

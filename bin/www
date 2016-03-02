@@ -9,8 +9,6 @@ var io = require('../io');
 var debug = require('debug')('node_chat:server');
 var http = require('http');
 
-io(require('socket.io')(http));
-
 /**
  * Get port from environment and store in Express.
  */
@@ -23,6 +21,8 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+io(require('socket.io')(server));
 
 /**
  * Listen on provided port, on all network interfaces.

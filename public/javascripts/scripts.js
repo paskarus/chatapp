@@ -1,5 +1,8 @@
 $(function () {
     var user_uuid = uuid();
+
+    var socket = io();
+    socket.emit('chat message', "hello");
     console.log(user_uuid);
 });
 
