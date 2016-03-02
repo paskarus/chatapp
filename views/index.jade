@@ -1,5 +1,30 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    h1 Node chat
+        .chat.container
+            .row
+                .col-xs-2
+                    .users
+                        ul.list-group
+                            li.list-group-item user1
+                            li.list-group-item user2
+                            li.list-group-item user3
+                            li.list-group-item user4
+                            li.list-group-item user5
+                            li.list-group-item user6
+                            li.list-group-item user7
+                .col-xs-10.right-panel
+                    .row
+                        .col-xs-4.new-room
+                            p connect to a new room id:
+                            input
+                            button.btn.btn-primary join
+                    .row
+                        .messages.col-xs-12
+                            p user1: haha, you are funny
+                            p user2: yup, I am
+                    .row.bottom
+                        .col-xs-9
+                                textarea
+                            button.btn.btn-danger.col-xs-2 send
