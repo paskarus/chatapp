@@ -5,8 +5,11 @@
  */
 
 var app = require('../app');
+var io = require('../io');
 var debug = require('debug')('node_chat:server');
 var http = require('http');
+
+io(require('socket.io')(http));
 
 /**
  * Get port from environment and store in Express.
