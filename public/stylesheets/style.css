@@ -5,6 +5,7 @@ body {
 
 a {
     color: #00B7FF;
+    text-decoration: none;
 }
 
 .chat {
@@ -34,7 +35,8 @@ a {
     position: absolute;
     bottom: 0;
 }
-.new-room button {
+
+.new-room form {
     float: right;
     margin-top: -10px;
     height: 40px;

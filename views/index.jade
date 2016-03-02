@@ -18,8 +18,10 @@ block content
           .row
             .col-xs-4.new-room
               p connect to a new room id:
-              input
-              button.btn.btn-primary join
+              form(method="get")
+                  input(name="id")
+                  input(type="submit", value="Join")
+
           .row
             .messages.col-xs-12
               p user1: haha, you are funny
