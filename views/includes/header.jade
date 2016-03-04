@@ -1,0 +1,17 @@
+header.navbar.navbar-inverse.navbar-fixed-top
+  .container
+    .navbar-header
+      a.navbar-brand(href="/") Demo Chat
+    nav(role='navigation')
+      form.navbar-form.navbar-right(method='get', action='join')
+        .form-group
+          input.form-control(type='text' name='room' placeholder='enter new room #id')
+
+        button.btn.btn-success(type='submit', value='send') Join
+      #signed-in-as.navbar-text.navbar-right
+        span.user-id.glyphicon.glyphicon-user &nbsp;myname
+        span &nbsp;/&nbsp;
+        span.glyphicon.glyphicon-cloud  Room: #{roomId}
+
+
+

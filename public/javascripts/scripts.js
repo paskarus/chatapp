@@ -1,14 +1,22 @@
-var my_uuid = uuid(),
-    room_id = 3;
+var my_uuid = uuid();
 
 $(function () {
-    var connectQuery = "room_id=" + room_id + "&uuid=" + my_uuid,
-        socket = io.connect('', {query: connectQuery});
+    $("#signed-in-as").find('.user-id').text(' ' + my_uuid);
 
-    socket.on('users_update', function (users) {
-        console.log('new users:', users);
+    var roomId = parseInt($("#room").data("room-id")),
+        connectQuery = "room_id=" + roomId + "&uuid=" + my_uuid,
+        socket = io.connect('', {query: connectQuery}),
+        userItemsTemplate = _.template($("#user-item-template").html());
+
+    socket.on('users_update', function (uuids) {
+        var usersElement = $(".users");
+
+        usersElement.empty();
+
+        _.each(uuids, function (uuid) {
+            usersElement.append(userItemsTemplate({uuid: uuid, current: uuid === my_uuid}))
+        });
     });
-    console.log(connectQuery);
 });
 
 function uuid() {

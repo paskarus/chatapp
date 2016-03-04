@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  #room.chat.container(data-room-id='#{roomId}')
+    .row
+      .col-xs-2
+        h4 Users online:
+        .users.list-group
+          script(type='text/template' id="user-item-template").
+              <li class="list-group-item<%= current ? ' active' : '' %>"><%= uuid %></li>
+      .col-xs-10.right-panel
+        .row
+          .col-xs-12
+            h4 Messages:
+            ul#messages
+              li.list-group-item user1: haha, you are funny
+              li.list-group-item user2: yup, I am
+              li.list-group-item user2: yup, I am
+              li.list-group-item user2: yup, I am
+        .row
+          form
+            .form-group
+              textarea#message-input.form-control(rows='3').col-xs-12
+              a#send.btn.btn-success.col-xs-2.col-xs-offset-10(type="submit") Send
