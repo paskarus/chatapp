@@ -1,8 +1,3 @@
-const Console = require('console').Console;
-const fs = require('fs');
-const output = fs.createWriteStream('./log/stdout.log');
-const errorOutput = fs.createWriteStream('./log/stderr.log');
+"use strict";
 
-const logger = new Console(output, errorOutput);
-
-module.exports = logger;
+module.exports = console;
