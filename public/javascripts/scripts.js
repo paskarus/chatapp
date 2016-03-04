@@ -1,9 +1,14 @@
-$(function () {
-    var user_uuid = uuid();
+var my_uuid = uuid(),
+    room_id = 3;
 
-    var socket = io();
-    socket.emit('chat message', "hello");
-    console.log(user_uuid);
+$(function () {
+    var connectQuery = "room_id=" + room_id + "&uuid=" + my_uuid,
+        socket = io.connect('', {query: connectQuery});
+
+    socket.on('users_update', function (users) {
+        console.log('new users:', users);
+    });
+    console.log(connectQuery);
 });
 
 function uuid() {
