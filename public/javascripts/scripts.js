@@ -51,8 +51,15 @@ $(function () {
         };
 
         socket.emit('message', 'room' + roomId, val);
-        messagesElement.append(messagesItemsTemplate(message))
+        messagesElement.append(messagesItemsTemplate(message));
+        $("#message-input").val('');
     });
+
+    $("#message-input").on('keydown', function (e) {
+        if (e.ctrlKey && e.keyCode == 13) {
+            $("#send").click();
+        }
+    })
 });
 
 function uuid() {
