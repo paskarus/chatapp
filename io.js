@@ -14,7 +14,6 @@ function http(io) {
         var messages = db.collection('messages'),
             rooms = db.collection('rooms');
 
-        // cleaning up (assume this is an only instance of backend)
         rooms.drop();
 
         io.on('connection', function(socket) {
@@ -23,12 +22,19 @@ function http(io) {
                 roomId = socket.handshake.query.room_id,
                 roomName = "room_" + parseInt(roomId);
 
-            console.log(uuid, 'connected to', roomName);
+            messages.find({
+                room_id: roomName
+            }).limit(10).toArray()
+                .then(function (res) {
+                    if (res !== null) {
+                        io.to(socket.id).emit('history', res);
+                    }
 
-            rooms.findOneAndUpdate(
-                {name: roomName},
-                {$addToSet: {users: uuid}}
-            ).then(users_update).catch(logger.error);
+                    rooms.findOneAndUpdate(
+                        {name: roomName},
+                        {$addToSet: {users: uuid}}
+                    ).then(users_update).catch(logger.error);
+                }).catch(logger.error);
 
             socket.on('message', function(room, msg){
                 var message = {
@@ -38,7 +44,7 @@ function http(io) {
                     created_at: new Date()
                 };
 
-                rooms.insertOne(message).then(function () {
+                messages.insertOne(message).then(function () {
                     delete message.room_id;
                     delete message._id;
 
@@ -55,22 +61,16 @@ function http(io) {
             });
 
             function users_update() {
-                rooms.findOne({name: roomName})
+                rooms.find({name: roomName}).limit(1).toArray()
                     .then(function (res) {
-                        console.log('@@@ result2', res);
+                        res = res[0];
+
                         socket.join(roomName);
-                        io.to(roomName).emit('users_update', res.users);
+                        if (res && 'users' in res) {
+                            io.to(roomName).emit('users_update', res.users);
+                        }
                     }).catch(logger.error);
             }
         });
-
-        io.on('disconnect', function(socket){
-            // TODO: cleanup
-            console.log("user disconnected");
-        });
     }).catch(logger.error);
-}
-
-function cleanup() {
-
 }

@@ -24,6 +24,18 @@ $(function () {
         messagesElement.append(messagesItemsTemplate(message))
     });
 
+    socket.on('history', function (messages) {
+        messagesElement.empty();
+
+        if (!Array.isArray(messages)) {
+            return
+        }
+
+        _.each(messages, function (message) {
+            messagesElement.append(messagesItemsTemplate(message))
+        });
+    });
+
     $("#send").on('click', function (e) {
         e.preventDefault();
 
