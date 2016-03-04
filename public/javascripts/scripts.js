@@ -6,7 +6,9 @@ $(function () {
     var roomId = parseInt($("#room").data("room-id")),
         connectQuery = "room_id=" + roomId + "&uuid=" + my_uuid,
         socket = io.connect('', {query: connectQuery}),
-        userItemsTemplate = _.template($("#user-item-template").html());
+        messagesElement = $(".messages"),
+        userItemsTemplate = _.template($("#user-item-template").html()),
+        messagesItemsTemplate = _.template($("#messages-item-template").html());
 
     socket.on('users_update', function (uuids) {
         var usersElement = $(".users");
@@ -16,6 +18,28 @@ $(function () {
         _.each(uuids, function (uuid) {
             usersElement.append(userItemsTemplate({uuid: uuid, current: uuid === my_uuid}))
         });
+    });
+
+    socket.on('new_message', function (message) {
+        messagesElement.append(messagesItemsTemplate(message))
+    });
+
+    $("#send").on('click', function (e) {
+        e.preventDefault();
+
+        var val = $.trim($("#message-input").val());
+
+        if (val === '') {
+            return;
+        }
+
+        var message = {
+            user: my_uuid,
+            text: val
+        };
+
+        socket.emit('message', 'room' + roomId, val);
+        messagesElement.append(messagesItemsTemplate(message))
     });
 });
 

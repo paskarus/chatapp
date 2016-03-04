@@ -12,11 +12,9 @@ block content
         .row
           .col-xs-12
             h4 Messages:
-            ul#messages
-              li.list-group-item user1: haha, you are funny
-              li.list-group-item user2: yup, I am
-              li.list-group-item user2: yup, I am
-              li.list-group-item user2: yup, I am
+            ul.messages.list-group
+              script(type='text/template' id="messages-item-template")
+                li.list-group-item <%= user %>: <%= text %>
         .row
           form
             .form-group

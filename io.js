@@ -11,11 +11,10 @@ function http(io) {
     mongo.connect(config.mongodb_url)
         .then(function (db) {
 
-        var users = db.collection('users'),
+        var messages = db.collection('messages'),
             rooms = db.collection('rooms');
 
         // cleaning up (assume this is an only instance of backend)
-        users.drop();
         rooms.drop();
 
         io.on('connection', function(socket) {
@@ -28,13 +27,23 @@ function http(io) {
 
             rooms.findOneAndUpdate(
                 {name: roomName},
-                {$addToSet: {users: uuid}},
-                {new: true, upsert: true}
+                {$addToSet: {users: uuid}}
             ).then(users_update).catch(logger.error);
 
             socket.on('message', function(room, msg){
-                // TODO: handle message
-                io.emit('chat message', msg);
+                var message = {
+                    room_id: roomName,
+                    user: uuid,
+                    text: msg,
+                    created_at: new Date()
+                };
+
+                rooms.insertOne(message).then(function () {
+                    delete message.room_id;
+                    delete message._id;
+
+                    socket.broadcast.to(roomName).emit('new_message', message);
+                }).catch(logger.error);
             });
 
             socket.on('disconnect', function () {
