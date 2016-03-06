@@ -32,7 +32,8 @@ function http(io) {
 
                     rooms.findOneAndUpdate(
                         {name: roomName},
-                        {$addToSet: {users: uuid}}
+                        {$addToSet: {users: uuid}},
+                        {upsert: true}
                     ).then(users_update).catch(logger.error);
                 }).catch(logger.error);
 
