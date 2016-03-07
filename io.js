@@ -22,10 +22,10 @@ function http(io) {
                 roomId = socket.handshake.query.room_id,
                 roomName = "room_" + parseInt(roomId);
 
-            messages.find({
-                room_id: roomName
-            }).limit(10).toArray()
+            messages.find({ room_id: roomName}).sort({_id:-1}).limit(10).toArray()
                 .then(function (res) {
+                    res = res.reverse();
+
                     if (res !== null) {
                         io.to(socket.id).emit('history', res);
                     }
